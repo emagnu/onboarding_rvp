@@ -1,0 +1,30 @@
+//  //   ///
+//  Import LIBRARIES FILES
+//  Import LIBRARIES
+//  PARTS
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+part 'onboarding_provider.g.dart';
+//  //   ///
+
+//  onboardingNotifierProvider
+@riverpod
+class OnboardingNotifier extends _$OnboardingNotifier {
+  @override
+  bool build() {
+    _loadOnboardingStatus();
+    return false;
+  }
+
+  Future<void> _loadOnboardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    state = prefs.getBool('onboardingCompleted') ?? false;
+  }
+
+  Future<void> completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboardingCompleted', true);
+    state = true;
+  }
+}
